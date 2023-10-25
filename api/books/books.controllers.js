@@ -3,7 +3,7 @@ const Books = require("../../models/Books");
 exports.getAllBooks = async (req, res) => {
   try {
     const allBooks = await Books.find({});
-    res.status(200).json({ allBooks });
+    res.status(200).json(allBooks);
   } catch (error) {
     res.status(500).json({ error: "error" });
   }
@@ -30,11 +30,13 @@ exports.createBook = async (req, res) => {
 exports.updtBook = async (req, res) => {
   try {
     const { BookId } = req.params;
-    const OneBook = await Books.findById(BookId);
-    if (OneBook) OneBook.updateOne(req.body);
+    const OneBook = await Books.findByIdAndUpdate(BookId, req.body);
+
     OneBook
-      ? res.status(200)
-      : res.status(404).json({ error: "Book not found!!!" });
+      ? res.status(200).end()
+      : res
+          .status(404)
+          .json({ error: "Book not found with this id " + BookId });
   } catch (error) {
     res.status(500).json({ error: "error" });
   }
@@ -45,7 +47,7 @@ exports.deleteBook = async (req, res) => {
     const OneBook = await Books.findById(BookId);
     if (OneBook) OneBook.deleteOne(req.body);
     OneBook
-      ? res.status(200)
+      ? res.status(200).end()
       : res.status(404).json({ error: "Book not found!!!" });
   } catch (error) {
     res.status(500).json({ error: "error" });

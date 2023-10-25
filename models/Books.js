@@ -10,9 +10,8 @@ const BookSchema = Schema({
   BookAuthor: { type: String, required: true },
   BookPrice: { type: Number, default: 5 },
   BookImage: {
-    data: Buffer,
-    contentType: String,
-    // default: myImage,
+    type: String,
+    default: "/src/img/quebpng.png",
   },
 });
 
